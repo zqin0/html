@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>canvas{width: 100%;height: 100%;background-color: #abcdef}</style>
+    <script src="js/three.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //实例化场景
+        var scene = new THREE.Scene();
+        //实例化相机
+        var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+        //实例化渲染器
+        var renderer = new THREE.WebGLRenderer();
+
+        //设置渲染画布大小
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        //实例化立方体参数为长宽高比例
+        var geometry = new THREE.CubeGeometry(1,1,1);
+       //实例化材质
+        var material = new THREE.MeshBasicMaterial({color: 0xffeedd});
+        //实例化模型
+        var cube = new THREE.Mesh(geometry, material); 
+        //将cube模型附件到scene场景
+        scene.add(cube);
+        //设置相机Z轴位置
+        camera.position.z = 10;
+        
+        function render() {
+            //循环执行render 自定义渲染函数
+            requestAnimationFrame(render);
+            //修改cube属性
+            cube.rotation.x += 0.1;
+            cube.rotation.y += 0.1;
+            //调用renderer渲染器的render方法开始渲染
+            renderer.setClearColor(0xccddde);
+            renderer.render(scene, camera);
+        }
+        render();
+    </script>
+</body>
+</html>

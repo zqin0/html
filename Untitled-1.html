@@ -1,0 +1,43 @@
+<html>
+    <meta charset="utf8">
+    <script src="./js/jquery.min.js"></script>
+<body>
+    省
+    <select id="pro">
+        <option value="请选择">请选择</option>
+        <option value="山东">山东</option>
+        <option value="河南">河南</option>
+        <option value="山西">山西</option>
+    </select> 
+    省会:
+    <select id="city"></select>
+</body>
+
+<script>
+//var city_data = [["济南","青岛"],["太原","大同"]];
+var cityjs = {
+    "山东":{"city":"济南"},"河南":{"city":"郑州"},"山西":{"city":"太原"}
+};
+$(document).ready(function(){
+    $("#pro").change(function(){
+        $("#city").html("");
+        var key = $(this).val();
+        alert(key);
+    })
+})
+/*$(function(){
+    $("#pro").change(function(){
+        $("#city").html("");
+        var index = $(this).val();
+        if(index - 0 == -1){
+            $("#city").append("<option>--</option>");
+            return;
+        }
+        var data = cityjs[index];
+        for(var i in data){
+            $("#city").append("<option>"+data[i]+"</option>");
+        }
+    });
+});*/
+</script>
+</html>
