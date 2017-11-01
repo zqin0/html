@@ -11,7 +11,7 @@
         //实例化场景
         var scene = new THREE.Scene();
         //实例化相机
-        var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
+        var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,10000);
         //实例化渲染器
         var renderer = new THREE.WebGLRenderer();
 
@@ -19,25 +19,139 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         //实例化立方体参数为长宽高比例
-        var geometry = new THREE.CubeGeometry(5,5,5);
-       //var geometry = new THREE.TorusBufferGeometry(10,3,20,100);
+        var geometry = new THREE.CubeGeometry(50,50,50);
+    //    var geometry = new THREE.TorusBufferGeometry(50,3,30,100);
        //实例化材质
-        var material = new THREE.MeshBasicMaterial({color: 0xffff00});
+        //var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+        var material = new THREE.MeshLambertMaterial({color:0xffffff});
+        // var material = new THREE.SpriteCanvasMaterial({color: 0xff0000});
+        
+        // for(var i=0; i<20; i++){
+        //     sprite = new THREE.Sprite(material);
+        //     //随机放置模型粒子
+        //     sprite.position.x = Math.random() * 2 - 1;
+        //     sprite.position.y = Math.random() * 2 - 1;
+        //     sprite.position.z = Math.random() * 2 - 1;
+        //     sprite.position.normalize();
+        //     sprite.position.multiplyScalar( Math.random() * 10 + 450);
+
+        //     sprite.scale.x = sprite.scale.y = 10;
+        //     scene.add(sprite);
+        //     geometry.vertices.push(sprite.position);
+        //     console.log(sprite.position.x);
+        //     console.log(sprite.position.y);
+        //     console.log(sprite.position.z);
+        // }
+        
+        
+         
+        function changeColor(){
+            var colorR = Math.floor(Math.random()*256);
+            var colorG = Math.floor(Math.random()*256);
+            var colorB = Math.floor(Math.random()*256);
+            // console.log(colorB);
+            // console.log(colorR);
+            // console.log(colorG);
+            var newColor = "0x" + colorR.toString(16) + colorG.toString(16) + colorB.toString(16);
+            // console.log(newColor)
+            // material.color = newColor;
+            return newColor;
+        }
+        //var lightColor = changeColor();
+        //创建灯光
+        var light = new THREE.DirectionalLight(0xeeff00);
+        light.position.set(0, 200, 300);
+        scene.add(light);
         //实例化模型
         var cube = new THREE.Mesh(geometry, material); 
         //将cube模型附件到scene场景
         scene.add(cube);
         //设置相机Z轴位置
-        camera.position.z = 50;
+        camera.position.z = 500;
         
+        //创建粒子系统,循环生成20个粒子
+        // for(var i=0; i<20; i++){
+        //     sprite = new THREE.Sprite(material);
+        //     //随机放置模型粒子
+        //     sprite.position.x = Math.random() * 2 - 1;
+        //     sprite.position.y = Math.random() * 2 - 1;
+        //     sprite.position.z = Math.random() * 2 - 1;
+        //     sprite.position.normalize();
+        //     sprite.position.multiplyScalar( Math.random() * 10 + 450);
+
+        //     sprite.scale.x = sprite.scale.y = 10;
+        //     scene.add(sprite);
+        //     geometry.vertices.push(sprite.position);
+        // }
+
+
+        // render();
+
+        //定义dom事件
+        document.addEventListener('click',onMouseClick,false);
+        // document.addEventListener('mousemove',onMouseMove,false);
+        document.addEventListener('keypress',BoxController,false);
+
+        function BoxController(event){
+            var moveStep = 50;
+            switch(event.keyCode){
+                //按下方向键←时,向左移动10单位
+                case 37 :
+                    cube.position.x -= moveStep;
+                    // camera.position.x -= moveStep;
+                    break;
+                //按下方向键→时,向右移动10个单位
+                case 39 :
+                    cube.position.x += moveStep;
+                    // camera.position.x += moveStep;
+                    break;
+                //按下方向键↑
+                case 38 :
+                    cube.position.y += moveStep;
+                    // camera.position.y += moveStep;
+                    break;
+                //按下方向键↓
+                case 40 :
+                    cube.position.y -= moveStep;
+                    // camera.position.y -= moveStep;
+                    break;
+                default : 
+                    return;
+
+            }
+        }
+        //定义鼠标移动事件
+        function onMouseMove(event){
+            // cube.position.x = event.screenX;
+            // cube.position.y = event.screenY;
+            // console.log(event.screenX);
+            // console.log(event.screenY);
+            var cubeX = (event.screenX - window.innerWidth/2);
+            var cubeY = (event.screenY - window.innerHeight/2);
+            cube.position.x = cubeX;
+            cube.position.y = cubeY;
+        }
+        //定义鼠标点击事件
+        function onMouseClick(){
+            cube.position.x = 0;
+            cube.position.y = 0;
+            cube.position.z = 0;
+            // cube.position.x = 0;
+            // cube.position.y = 0;
+            // cube.position.z = 0;
+        }
+        //渲染函数
         function render() {
             //循环执行render 自定义渲染函数
             requestAnimationFrame(render);
             //修改cube属性
-            cube.rotation.x += 0.1;
-            cube.rotation.y += 0.1;
+            cube.rotation.x += 0.08;
+            cube.rotation.y += 0.08;
+            //changeColor();
+            //cube.position.z += 0.5;
             //调用renderer渲染器的render方法开始渲染
-            renderer.setClearColor(0xccddde);
+            // renderer.setClearColor(0xccddde);
+            renderer.setClearColor(0x000000);
             renderer.render(scene, camera);
         }
         render();

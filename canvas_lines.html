@@ -78,7 +78,7 @@
 				} );
 				//实例化几何体
 				var geometry = new THREE.Geometry();
-				//实例化粒子系统 循环生成随机位置
+				//创建粒子系统 循环生成随机位置
 				for ( var i = 0; i < 100; i ++ ) {
 					
 					particle = new THREE.Sprite( material );
@@ -113,6 +113,9 @@
 
 				windowHalfX = window.innerWidth / 2;
 				windowHalfY = window.innerHeight / 2;
+				console.log(windowHalfX);
+				console.log(windowHalfY);
+
 				//重新设置相机位置
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
