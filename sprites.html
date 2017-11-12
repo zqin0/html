@@ -22,7 +22,8 @@
 			var camera, scene, renderer;
 			var cameraOrtho, sceneOrtho;
 
-			var spriteTL, spriteTR, spriteBL, spriteBR, spriteC;
+			var spriteTL, spriteTR, spriteBL, spriteBR;
+			var spriteC;
 
 			var mapC;
 
@@ -39,7 +40,7 @@
 				camera = new THREE.PerspectiveCamera( 60, width / height, 1, 2100 );
 				camera.position.z = 1500;
 
-				cameraOrtho = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
+				cameraOrtho = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 1000 );
 				cameraOrtho.position.z = 10;
 
 				scene = new THREE.Scene();
@@ -50,14 +51,14 @@
 				// create sprites
 
 				//amount 粒子个数
-				var amount = 150;
+				var amount = 100;
 				//半径
 				var radius = 600;
 
 				var textureLoader = new THREE.TextureLoader();
 
 				var mapA = textureLoader.load( "./sprite.png", createHUDSprites );
-				var mapB = textureLoader.load( "./sprite1.png" );
+				var mapB = textureLoader.load( "./sprite.png" );
 				mapC = textureLoader.load( "./sprite1.png" );
 
 				group = new THREE.Group();
@@ -76,6 +77,10 @@
 					if ( z < 0 ) {
 
 						material = materialB.clone();
+						//material.color.setHSL( 0.5 * Math.random(), 0.75, 0.5 );
+						material.map.offset.set( -0.5, -0.5 );
+						material.map.repeat.set( 2, 2 );
+
 
 					} else {
 
@@ -120,36 +125,37 @@
 				var width = material.map.image.width;
 				var height = material.map.image.height;
 
+				//左上角
 				spriteTL = new THREE.Sprite( material );
 				spriteTL.scale.set( width, height, 1 );
 				sceneOrtho.add( spriteTL );
-
+				//右上角
 				spriteTR = new THREE.Sprite( material );
 				spriteTR.scale.set( width, height, 1 );
 				sceneOrtho.add( spriteTR );
-
+				//左下角
 				spriteBL = new THREE.Sprite( material );
 				spriteBL.scale.set( width, height, 1 );
 				sceneOrtho.add( spriteBL );
-
+				//右下角
 				spriteBR = new THREE.Sprite( material );
 				spriteBR.scale.set( width, height, 1 );
 				sceneOrtho.add( spriteBR );
 
 				spriteC = new THREE.Sprite( material );
 				spriteC.scale.set( width, height, 1 );
-				sceneOrtho.add( spriteC );
+				sceneOrtho.add( spriteC );		
 
 				updateHUDSprites();
 
 			}
-
+			//计算坐标
 			function updateHUDSprites() {
 
 				var width = window.innerWidth / 2;
 				var height = window.innerHeight / 2;
 
-				var material = spriteTL.material;
+				var material = spriteC.material;
 
 				var imageWidth = material.map.image.width / 2;
 				var imageHeight = material.map.image.height / 2;
