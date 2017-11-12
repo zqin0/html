@@ -62,11 +62,13 @@
             var color1 = new THREE.Color(0x444444);
             var color2 = new THREE.Color(0xff0000);
         
-            var p1 = new THREE.Vector3(-100,0,10);
-            var p2 = new THREE.Vector3(100,0,-100);
+            var p1 = new THREE.Vector3(0,0,0);
+            //var p2 = new THREE.Vector3(100,100,100);
+            var p3 = new THREE.Vector3(-200,50,-100);
         
             geometry.vertices.push(p1);
-            geometry.vertices.push(p2);
+            //geometry.vertices.push(p2);
+            geometry.vertices.push(p3);
             geometry.colors.push(color1,color2);
         
             var line = new THREE.Line(geometry,material,THREE.LineSegments);
@@ -89,12 +91,17 @@
             // var line = new THREE.Line(geometry, material);
             // scene.add(line);
 
+            var spriteMap = new THREE.TextureLoader().load("sprite.png");
+            var spriteMaterial = new THREE.SpriteMaterial({ map: spriteMap, color: 0xffffff });
+            var sprite = new THREE.Sprite(spriteMaterial);
+            scene.add(sprite);
+
         //初始化3D环境
 
-            // width = document.getElementById("canvas").clientWidth;
-            // height = document.getElementById("canvas").clientHeight;
-            // renderer.setSize(width,height);
-            renderer.setSize(1024,768);
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            renderer.setSize(width,height);
+            //renderer.setSize(1024,768);
             document.body.appendChild(renderer.domElement)
             // document.getElementById("canvas").appendChild(renderer.domElement)
             renderer.setClearColor(0x006666,1.0);

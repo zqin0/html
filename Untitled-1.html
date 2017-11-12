@@ -16,7 +16,8 @@
 <script>
 //var city_data = [["济南","青岛"],["太原","大同"]];
 var cityjs = {
-    "山东":{"city":"济南"},"河南":{"city":"郑州"},"山西":{"city":"太原"}
+    //"山东":{"city":"济南"},"河南":{"city":"郑州"},"山西":{"city":"太原"}
+    "山东":{"city":["济南","青岛"]},"河南":{"city":["郑州","洛阳"]},"山西":{"city":["太原","长治"]}
 };
 $(document).ready(function(){
     $("#pro").change(function(){
@@ -37,7 +38,7 @@ $(document).ready(function(){
         for(var i in data){
             $("#city").append("<option>"+data[i]+"</option>");
         }
-    });
+    });*
 });*/
 </script>
 </html>
