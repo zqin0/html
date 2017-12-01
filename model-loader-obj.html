@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scale=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/three.js"></script>
+    <script src="lib/loaders/OBJLoader.js"></script>
+    <script src="lib/controls/TrackballControls.js"></script>
+    <script src="lib/Detector.js"></script>
+</head>
+<body>
+    <script>
+        var scene,camera,renderer;
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var controller;
+        init();
+        animate();
+        function init(){
+
+
+            //创建相机
+            camera = new THREE.PerspectiveCamera(60,width/height,1,10000);
+            camera.position.x = -1000;
+            camera.position.z = 2000;
+            camera.position.y = 1000;
+
+            //创建控制器
+            controller = new THREE.TrackballControls(camera);
+            controller.rotateSpeed = 5.0;
+            //创建场景
+            scene = new THREE.Scene();
+            //创建顶部环境光
+            var  halflight = new THREE.HemisphereLight(0xdddddd);
+            scene.add(halflight);
+            //创建平行光
+            var dirlight = new THREE.DirectionalLight(0xddeeff);
+            dirlight.position.set(0,1,1);
+            scene.add(dirlight);
+            //创建进度查看工具
+//            var manager = new THREE.LoadingManager();
+//            manager.onProgress = function (item, loaded, total){
+//                console.log(item, loaded, total);
+//            };
+
+            //引入贴图
+//            var texture = new THREE.TextureLoader();
+//            var map = texture.load("textures/fo.jpg",function(image){
+//                texture.image = image;
+//                texture.needsUpdate = true;
+//            });
+//
+//            //创建模型加载器
+//            var loader = new THREE.OBJLoader();
+//            loader.load("models/bird.obj",function(object){
+//                object.traverse(function (child){
+//                    if(child instanceof THREE.Mesh){
+//                        child.material.map = texture;
+//                    }
+//                });
+//            });
+//
+
+            //var loader = new THREE.TextureLoader();
+
+            //var texture = loader.load( 'texture/road.jpg' );
+             
+            // 创建贴图加载器
+            // var texture = new THREE.TextureLoader().load();
+            var texture = new THREE.TextureLoader();
+            texture.load(
+                'textures/chair.jpg',
+                function name(image) {
+                    var material = new THREE.MeshBasicMaterial({
+                        map:image
+                    });
+                    texture.image = image;
+                    texture.needsUpdate = true;
+                }
+            );
+            // 创建图片加载器
+            // var imgloader = new THREE.ImageLoader();
+            // imgloader.load( 'textures/chair.jpg', function ( image ) {
+
+            //     texture.image = image;
+            //     texture.needsUpdate = true;
+
+            // } );
+            // 加载模型
+            var objloader = new THREE.OBJLoader();
+            objloader.load( 'models/chair.obj', function ( object ) {
+
+                object.traverse( function ( child ) {
+
+                    if ( child instanceof THREE.Mesh ) {
+
+                        child.material.map = texture;
+                        //child.material.normalMap = normal;
+                    }
+
+                } );
+
+                //object.position.y = - 95;
+                scene.add( object );
+
+            });
+            //创建渲染器
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth,window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            window.addEventListener('resize',onWindowResize,false);
+        }
+        // 窗口大小重置函数
+        function onWindowResize(){
+            var HalfWidth = window.innerWidth/2;
+            var HalfHeight = window.innerHeight/2;
+            var newWidth = window.innerWidth;
+            var newHeight = window.innerHeight;
+            camera.aspect = newWidth/newHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(newWidth,newHeight);
+        }
+        // 渲染函数
+        function render(){
+            // 必须更新控制器,否则控制器无效
+            controller.update();
+            //camera.lookAt(scene.position);
+            renderer.setClearColor(0xddeeff);
+            renderer.render(scene,camera);
+        }
+
+        function animate(){
+            requestAnimationFrame(animate);
+            render();
+        }
+
+//        init3D();
+//        animate();
+    </script>
+</body>
+</html>

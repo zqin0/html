@@ -50,6 +50,8 @@
 
             var light;
             function initLight() {
+                light = new THREE.HemisphereLight(0xddeeff,0xabcdef,1);
+                scene.add(light);
             }
 
             var cube;
@@ -69,6 +71,7 @@
                 initObject();
                 renderer.clear();
                 renderer.render(scene, camera);
+                console.log("it is work");
             }
 
         </script>
