@@ -55,7 +55,7 @@
 
             } );
 
-            加载模型
+            // 加载模型
 
             var objloader = new THREE.OBJLoader();
             objloader.load( 'models/chair.obj', function ( object ) {
@@ -83,7 +83,7 @@
 
             window.addEventListener('resize',onWindowResize,false);
         }
-        
+
         //定义dom事件
         // 窗口大小重置函数
         function onWindowResize(){
