@@ -43,36 +43,36 @@
             dirlight.position.set(0,1,1);
             scene.add(dirlight);
 
-            // // 创建贴图加载器
-            // var texture = new THREE.TextureLoader().load();
+            // 创建贴图加载器
+            var texture = new THREE.TextureLoader().load();
 
-            // // 创建图片加载器
-            // var imgloader = new THREE.ImageLoader();
-            // imgloader.load( 'textures/chair.jpg', function ( image ) {
+            // 创建图片加载器
+            var imgloader = new THREE.ImageLoader();
+            imgloader.load( 'textures/chair.jpg', function ( image ) {
 
-            //     texture.image = image;
-            //     texture.needsUpdate = true;
+                texture.image = image;
+                texture.needsUpdate = true;
 
-            // } );
+            } );
 
-            // 加载模型
+            加载模型
 
-            // var objloader = new THREE.OBJLoader();
-            // objloader.load( 'models/chair.obj', function ( object ) {
+            var objloader = new THREE.OBJLoader();
+            objloader.load( 'models/chair.obj', function ( object ) {
 
-            //     object.traverse( function ( child ) {
+                object.traverse( function ( child ) {
 
-            //         if ( child instanceof THREE.Mesh ) {
+                    if ( child instanceof THREE.Mesh ) {
 
-            //             child.material.map = texture;
-            //             //child.material.normalMap = normal;
-            //         }
+                        child.material.map = texture;
+                        //child.material.normalMap = normal;
+                    }
 
-            //     } );
+                } );
 
-            //     // object.rotation.y += 95;
-            //     // scene.add( object );
-            // });
+                // object.rotation.y += 95;
+                // scene.add( object );
+            });
 
             var mesh = getObjMesh();
             scene.add(mesh);
@@ -83,39 +83,7 @@
 
             window.addEventListener('resize',onWindowResize,false);
         }
-
-        // 加载模型函数
-        function getObjMesh() {
-            // 创建贴图加载器
-            var texture = new THREE.TextureLoader().load();
-
-            // 创建图片加载器
-            var imgloader = new THREE.ImageLoader();
-            imgloader.load('textures/chair.jpg', function (image) {
-
-                texture.image = image;
-                texture.needsUpdate = true;
-
-            });
-            // 创建模型加载器
-            var objloader = new THREE.OBJLoader();
-            objloader.load('models/chair.obj', function (object) {
-
-                object.traverse(function (child) {
-
-                    if (child instanceof THREE.Mesh) {
-
-                        child.material.map = texture;
-                        //child.material.normalMap = normal;
-                    }
-
-                });
-
-                // object.rotation.y += 95;
-                // scene.add( object );
-                return object;
-            });
-        }
+        
         //定义dom事件
         // 窗口大小重置函数
         function onWindowResize(){
